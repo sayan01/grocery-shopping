@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Login Page
+{% endblock %}
+
+{% block content %}
+
+<h1 class="display-1">Login</h1>
+
+<form action="" class="form">
+    <div class="form-group">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" name="username" required class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" name="password" required class="form-control">
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Login" class="btn btn-primary">
+    </div>
+</form>
+    
+{% endblock %}

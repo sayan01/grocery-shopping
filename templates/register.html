@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Register Page
+{% endblock %}
+{% block content %}
+<h1 class="display-1">Register</h1>
+
+<form action="" class="form">
+    <div class="form-group">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" name="username" required class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" name="password" required class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="confirm_password" class="form-label">Confirm Password</label>
+        <input type="password" name="confirm_password" required class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" name="name" class="form-control">
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Register" class="btn btn-primary">
+    </div>
+</form>
+{% endblock %}
