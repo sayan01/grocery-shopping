@@ -14,7 +14,7 @@
     {% endblock %}
 </head>
 <body>
-    {% include 'navbar.html'   %}
+    {% include 'navbar.html' with context %}
     {% with messages = get_flashed_messages() %}
     {% if messages %}
         {% for message in messages %}

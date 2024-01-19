@@ -6,12 +6,21 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
+        {% if 'user_id' in session %}
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{{ url_for('login') }}">Login</a>
+          <a class="nav-link"  href="{{ url_for('index') }}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"  href="{{ url_for('profile') }}">Profile</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link"  href="{{ url_for('login') }}">Login</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('register') }}">Register</a>
         </li>
+        {% endif %}
       </ul>
     </div>
   </div>
