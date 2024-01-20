@@ -1,34 +1,39 @@
 {% extends 'layout.html' %}
 
 {% block title %}
-    Admin Dashboard
+    Products of Category {{category.name}}
 {% endblock %}
 
 {% block content %}
 
-<h1 class="display-1">Admin Dashboard</h1>
-<a href="{{url_for('add_category')}}" class="btn btn-success">
+<h1 class="display-1">
+    Products of Category {{category.name}}
+</h1>
+<a href="{{url_for('add_product', category_id=category.id)}}" class="btn btn-success">
     <i class="fas fa-plus    "></i>
     Add
 </a>
 
-<h2 class="display-2">Categories:</h2>
 
 <table class="table">
     <thead>
         <tr>
-            <th>Category ID</th>
-            <th>Category Name</th>
-            <th># of Products</th>
+            <th>Product ID</th>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Manufacture Date</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        {% for category in categories %}
+        {% for product in category.products %}
         <tr>
-            <td>{{category.id}}</td>
-            <td>{{category.name}}</td>
-            <td>{{category.products|length}}</td>
+            <td>{{product.id}}</td>
+            <td>{{product.name}}</td>
+            <td>{{product.price}}</td>
+            <td>{{product.quantity}}</td>
+            <td>{{product.man_date}}</td>
             <td>
                 <a href="{{url_for('show_category', id=category.id)}}" class="btn btn-primary">
                     <i class="fas fa-search    "></i>

@@ -1,0 +1,64 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Add Product
+{% endblock %}
+
+{% block content %}
+
+<h1 class="display-1">
+    Add Product
+</h1>
+
+<form action="{{url_for('add_product_post')}}" method="post" class="form">
+    <div class="form-group">
+        <label for="name" class="form-label">Product Name:</label>
+        <input type="text" 
+        name="name" 
+        id="name" 
+        class="form-control" 
+        required>
+    </div>
+    <div class="form-group">
+        <label for="price" class="form-label">Price:</label>
+        <input type="number" 
+        name="price" 
+        id="price" 
+        min="1"
+        class="form-control" 
+        required>
+    </div>
+    <div class="form-group">
+        <label for="category_id" class="form-label">Category:</label>
+        <select name="category_id" id="category_id" class="form-control" required>
+            {% for cat in categories %}
+            {% if cat.id == category.id %}
+                <option selected value="{{cat.id}}">{{cat.name}}</option>
+            {% else %}
+                <option value="{{cat.id}}">{{cat.name}}</option>
+            {% endif %}
+            {% endfor %}
+        </select>
+
+
+    </div>
+    <div class="form-group">
+        <label for="quantity" class="form-label">Quantity:</label>
+        <input type="number" 
+        name="quantity" 
+        id="quantity" 
+        min="1"
+        class="form-control" 
+        required>
+    </div>
+    <div class="form-group">
+        <label for="man_date" class="form-label">Manufacture Date:</label>
+        <input type="date" name="man_date" id="man_date" required class="form-control">
+    </div>
+    <button type="submit" class="btn btn-success">
+        <i class="fas fa-plus    "></i>
+        Add
+    </button>
+</form>
+
+{% endblock %}
