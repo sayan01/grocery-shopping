@@ -152,12 +152,30 @@ def logout():
 @app.route('/admin')
 @admin_required
 def admin():
-    return render_template('admin.html')
+    categories = Category.query.all()
+    return render_template('admin.html', categories=categories)
 
 @app.route('/category/add')
 @admin_required
 def add_category():
-    return "add category"
+    return render_template('category/add.html')
+
+@app.route('/category/add', methods=['POST'])
+@admin_required
+def add_category_post():
+    name = request.form.get('name')
+
+    if not name:
+        flash('Please fill out all fields')
+        return redirect(url_for('add_category'))
+    
+    category = Category(name=name)
+    db.session.add(category)
+    db.session.commit()
+
+    flash('Category added successfully')
+    return redirect(url_for('admin'))
+    
 
 @app.route('/category/<int:id>/')
 @admin_required
@@ -167,9 +185,46 @@ def show_category(id):
 @app.route('/category/<int:id>/edit')
 @admin_required
 def edit_category(id):
-    return "edit category"
+    category = Category.query.get(id)
+    if not category:
+        flash('Category does not exist')
+        return redirect(url_for('admin'))
+    return render_template('category/edit.html', category=category)
+
+@app.route('/category/<int:id>/edit', methods=['POST'])
+@admin_required
+def edit_category_post(id):
+    category = Category.query.get(id)
+    if not category:
+        flash('Category does not exist')
+        return redirect(url_for('admin'))
+    name = request.form.get('name')
+    if not name:
+        flash('Please fill out all fields')
+        return redirect(url_for('edit_category', id=id))
+    category.name = name
+    db.session.commit()
+    flash('Category updated successfully')
+    return redirect(url_for('admin'))
 
 @app.route('/category/<int:id>/delete')
 @admin_required
 def delete_category(id):
-    return "delete category"
+    category = Category.query.get(id)
+    if not category:
+        flash('Category does not exist')
+        return redirect(url_for('admin'))
+    return render_template('category/delete.html', category=category)
+
+@app.route('/category/<int:id>/delete', methods=['POST'])
+@admin_required
+def delete_category_post(id):
+    category = Category.query.get(id)
+    if not category:
+        flash('Category does not exist')
+        return redirect(url_for('admin'))
+    db.session.delete(category)
+    db.session.commit()
+
+    flash('Category deleted successfully')
+    return redirect(url_for('admin'))
