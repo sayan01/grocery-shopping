@@ -6,6 +6,8 @@ import config
 
 import models
 
+import api
+
 import routes
 
 if __name__ == '__main__':

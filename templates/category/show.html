@@ -7,13 +7,17 @@
 {% block content %}
 
 <h1 class="display-1">
-    Products of Category {{category.name}}
+    Category {{category.name}}
 </h1>
-<a href="{{url_for('add_product', category_id=category.id)}}" class="btn btn-success">
-    <i class="fas fa-plus    "></i>
-    Add
-</a>
-
+<div class="heading">
+    <h2 class="text-muted">
+        Products:
+    </h2>
+    <a href="{{url_for('add_product', category_id=category.id)}}" class="btn btn-success">
+        <i class="fas fa-plus    "></i>
+        Add
+    </a>
+</div>
 
 <table class="table">
     <thead>
@@ -49,4 +53,15 @@
     </tbody>
 </table>
     
+{% endblock %}
+
+{% block style %}
+    <style>
+        .heading{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
 {% endblock %}
