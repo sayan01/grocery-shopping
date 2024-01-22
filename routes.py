@@ -361,8 +361,29 @@ def index():
     user = User.query.get(session['user_id'])
     if user.is_admin:
         return redirect(url_for('admin'))
+
+    parameter = request.args.get('parameter')
+    query = request.args.get('query')
+
     categories = Category.query.all()
-    return render_template('index.html', categories=categories)
+
+    parameters = {
+        'cname': 'Category Name',
+        'pname': 'Product Name',
+        'price': 'Max Price'
+    }
+
+    if parameter == 'cname':
+        categories = Category.query.filter(Category.name.ilike(f'%{query}%')).all()
+        return render_template('index.html', categories=categories, parameters=parameters, query=query)
+    elif parameter == 'pname':
+        return render_template('index.html', categories=categories, param=parameter, pname=query, parameters=parameters, query=query)
+    elif parameter == 'price':
+        query = float(query)
+        return render_template('index.html', categories=categories, param=parameter, price=query, parameters=parameters, query=query)
+
+
+    return render_template('index.html', categories=categories, parameters=parameters)
 
 @app.route('/add_to_cart/<int:product_id>', methods=['POST'])
 @auth_required
