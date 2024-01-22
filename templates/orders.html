@@ -1,0 +1,61 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<h1 class="display-1">Orders</h1>
+
+<hr>
+
+{% if transactions|length > 0 %}
+    {% for transaction in transactions %}
+        <div class="heading">
+            <h2 class="text-muted">Transaction #{{transaction.id}}</h2>
+            <p class="datetime">{{transaction.datetime.strftime('%d %b %Y, %I:%M %p')}}</p>
+        </div>
+        <div class="orders">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in transaction.orders %}
+                    <tr>
+                        <td>{{order.product.name}}</td>
+                        <td>{{order.quantity}}</td>
+                        <td>{{order.price}}</td>
+                        <td>{{order.quantity * order.price}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="alert alert-info">
+        <h2>No Orders</h2>
+    </div>
+{% endif %}
+
+{% endblock %}
+
+{% block style %}
+
+<style>
+    .heading {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .datetime {
+        font-size: 1.0rem;
+    }
+</style>
+
+{% endblock %}

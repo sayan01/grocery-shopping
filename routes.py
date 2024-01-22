@@ -460,4 +460,10 @@ def checkout():
     db.session.commit()
 
     flash('Order placed successfully')
-    return redirect(url_for('cart'))
+    return redirect(url_for('orders'))
+
+@app.route('/orders')
+@auth_required
+def orders():
+    transactions = Transaction.query.filter_by(user_id=session['user_id']).order_by(Transaction.datetime.desc()).all()
+    return render_template('orders.html', transactions=transactions)
