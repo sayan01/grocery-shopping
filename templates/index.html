@@ -8,40 +8,42 @@
             <h2>{{ category.name}}</h2>
             <div class="products">
                 {% for product in category.products %}
-                {% if (param == 'pname' and pname.lower() in product.name.lower()) or (param == 'price' and product.price <= price) or (not param) %}
-                    <div class="card" style="width: 18rem;">
-                    <img src="https://picsum.photos/200/200" class="card-img-top" alt="{{product.name}}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{product.name}}</h5>
-                        <p class="card-text">
-                            <div class="price">
-                                <strong>Price:</strong>
-                                &#8377; {{product.price}}
-                            </div>
-                            <div class="quantity">
-                                <strong>Available:</strong>
-                                {{product.quantity}}
-                            </div>
-                            <div class="man_date">
-                                <strong>Manufacture Date:</strong>
-                                {{product.man_date}}
-                            </div>
-                        </p>
-                        <div class="quantity_input">
-                            <form action="{{url_for('add_to_cart', product_id=product.id)}}" 
-                            method="POST"
-                            class="form">
-                                <label for="quantity">Quantity:</label>
-                                <input class="form-control" 
-                                type="number" name="quantity" 
-                                id="quantity" min="1" 
-                                max="{{product.quantity}}" value="1">
+                {% if pname != '' and pname.lower() in product.name.lower() or not pname %}
+                    {% if price and product.price <= price or not price %}
+                        <div class="card" style="width: 18rem;">
+                        <!-- <img src="https://picsum.photos/200/200" class="card-img-top" alt="{{product.name}}"> -->
+                        <div class="card-body">
+                            <h5 class="card-title">{{product.name}}</h5>
+                            <p class="card-text">
+                                <div class="price">
+                                    <strong>Price:</strong>
+                                    &#8377; {{product.price}}
+                                </div>
+                                <div class="quantity">
+                                    <strong>Available:</strong>
+                                    {{product.quantity}}
+                                </div>
+                                <div class="man_date">
+                                    <strong>Manufacture Date:</strong>
+                                    {{product.man_date}}
+                                </div>
+                            </p>
+                            <div class="quantity_input">
+                                <form action="{{url_for('add_to_cart', product_id=product.id)}}" 
+                                method="POST"
+                                class="form">
+                                    <label for="quantity">Quantity:</label>
+                                    <input class="form-control" 
+                                    type="number" name="quantity" 
+                                    id="quantity" min="1" 
+                                    max="{{product.quantity}}" value="1">
 
-                                <input type="submit" value="Add to Cart" class="btn btn-success">
-                            </form>
+                                    <input type="submit" value="Add to Cart" class="btn btn-success">
+                                </form>
+                            </div>
                         </div>
-                    </div>
-                    </div>
+                        </div>
+                    {% endif %}
                 {% endif %}
                 {% endfor %}
             </div>

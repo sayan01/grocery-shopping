@@ -3,23 +3,33 @@
         <div class="col-md-12">
             <form action="" method="GET">
                 <div class="input-group">
-                    <select name="parameter" id="parameter" class="parameter form-select">
-                        {% for parameter in parameters %}
-                            {% if param and parameter == param %}
-                                <option value="{{parameter}}" selected>{{parameters[parameter]}}</option>
-                            {% else %}
-                                <option value="{{parameter}}">{{parameters[parameter]}}</option>
-                            {% endif %}
-                        {% endfor %}
-                    </select>
                     <input type="text"
-                    value="{{query}}" 
-                    name="query" class="form-control w-50" placeholder="Search for...">
-                    <span class="input-group-btn">
-                        <button class="btn btn-outline-primary" type="submit">Search</button>
+                    name="cname" 
+                    id="cname" 
+                    value="{{cname}}"
+                    class="form-control" 
+                    placeholder="Category">
+                    <input type="text" 
+                    name="pname" 
+                    id="pname" 
+                    value="{{pname}}"
+                    class="form-control" 
+                    placeholder="Product">
+                    <input type="number" 
+                    name="price" 
+                    id="price" 
+                    value="{{price}}"
+                    class="form-control" 
+                    placeholder="Max Price">
+                    <a href="{{url_for('index')}}" class="btn btn-outline-danger">
+                        <i class="fas fa-backspace    "></i>
+                        Clear
+                    </a>
+                    <button class="btn btn-outline-primary" type="submit">
+                        <i class="fa fa-search"></i>
+                        Search
                     </span>
                 </div>
-            </form>
         </div>
     </div>
 </div>
