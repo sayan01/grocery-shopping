@@ -93,14 +93,6 @@ def admin_required(func):
         return func(*args, **kwargs)
     return inner
 
-@app.route('/')
-@auth_required
-def index():
-    user = User.query.get(session['user_id'])
-    if user.is_admin:
-        return redirect(url_for('admin'))
-    return render_template('index.html')
-
 
 @app.route('/profile')
 @auth_required
@@ -359,3 +351,48 @@ def delete_product_post(id):
 
     flash('Product deleted successfully')
     return redirect(url_for('show_category', id=category_id))
+
+
+# ---- user routes  
+
+@app.route('/')
+@auth_required
+def index():
+    user = User.query.get(session['user_id'])
+    if user.is_admin:
+        return redirect(url_for('admin'))
+    categories = Category.query.all()
+    return render_template('index.html', categories=categories)
+
+@app.route('/add_to_cart/<int:product_id>', methods=['POST'])
+@auth_required
+def add_to_cart(product_id):
+    product = Product.query.get(product_id)
+    if not product:
+        flash('Product does not exist')
+        return redirect(url_for('index'))
+    quantity = request.form.get('quantity')
+    try:
+        quantity = int(quantity)
+    except ValueError:
+        flash('Invalid quantity')
+        return redirect(url_for('index'))
+    if quantity <= 0 or quantity > product.quantity:
+        flash(f'Invalid quantity, should be between 1 and {product.quantity}')
+        return redirect(url_for('index'))
+
+    cart = Cart.query.filter_by(user_id=session['user_id'], product_id=product_id).first()
+
+    if cart:
+        if quantity + cart.quantity > product.quantity:
+            flash(f'Invalid quantity, should be between 1 and {product.quantity}')
+            return redirect(url_for('index'))
+        cart.quantity += quantity
+    else:
+        cart = Cart(user_id=session['user_id'], product_id=product_id, quantity=quantity)
+        db.session.add(cart)
+
+    db.session.commit()
+
+    flash('Product added to cart successfully')
+    return redirect(url_for('index'))
