@@ -4,6 +4,8 @@ from models import db, User, Category, Product, Cart, Transaction, Order
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 from datetime import datetime
+import csv
+from uuid import uuid4
 
 @app.route('/login')
 def login():
@@ -467,3 +469,17 @@ def checkout():
 def orders():
     transactions = Transaction.query.filter_by(user_id=session['user_id']).order_by(Transaction.datetime.desc()).all()
     return render_template('orders.html', transactions=transactions)
+
+@app.route('/export_csv')
+@auth_required
+def export_csv():
+    transactions = Transaction.query.filter_by(user_id=session['user_id']).all()
+    filename = uuid4().hex + '.csv'
+    url = 'static/csv/' + filename
+    with open(url, 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['transaction_id', 'datetime', 'product_name', 'quantity', 'price'])
+        for transaction in transactions:
+            for order in transaction.orders:
+                writer.writerow([transaction.id, transaction.datetime, order.product.name, order.quantity, order.price])
+    return redirect(url_for('static', filename='csv/'+filename))

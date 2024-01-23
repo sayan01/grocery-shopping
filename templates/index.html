@@ -28,19 +28,27 @@
                                     {{product.man_date}}
                                 </div>
                             </p>
-                            <div class="quantity_input">
-                                <form action="{{url_for('add_to_cart', product_id=product.id)}}" 
-                                method="POST"
-                                class="form">
-                                    <label for="quantity">Quantity:</label>
-                                    <input class="form-control" 
-                                    type="number" name="quantity" 
-                                    id="quantity" min="1" 
-                                    max="{{product.quantity}}" value="1">
+                            {% if product.quantity > 0 %}
+                                
+                                <div class="quantity_input">
+                                    <form action="{{url_for('add_to_cart', product_id=product.id)}}" 
+                                    method="POST"
+                                    class="form">
+                                        <label for="quantity">Quantity:</label>
+                                        <input class="form-control" 
+                                        type="number" name="quantity" 
+                                        id="quantity" min="1" 
+                                        max="{{product.quantity}}" value="1">
 
-                                    <input type="submit" value="Add to Cart" class="btn btn-success">
-                                </form>
-                            </div>
+                                        <input type="submit" value="Add to Cart" class="btn btn-success">
+                                    </form>
+                                </div>
+                            {% else %}
+                            <button disabled="disabled" class="btn btn-outline-danger">
+                                <i class="fas fa-times    "></i>
+                                Out of Stock
+                            </button>
+                            {% endif %}
                         </div>
                         </div>
                     {% endif %}
