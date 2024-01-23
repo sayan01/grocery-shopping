@@ -148,7 +148,9 @@ def logout():
 @admin_required
 def admin():
     categories = Category.query.all()
-    return render_template('admin.html', categories=categories)
+    category_names = [category.name for category in categories]
+    category_sizes = [len(category.products) for category in categories]
+    return render_template('admin.html', categories=categories, category_names=category_names, category_sizes=category_sizes)
 
 @app.route('/category/add')
 @admin_required
